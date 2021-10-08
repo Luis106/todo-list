@@ -118,7 +118,10 @@
     },
     created() {
       this.getAllTasks();
-    }
+    },
+    destroyed () {
+      console.log("DoneTask ha muerto");
+    },
   }
 </script>
 

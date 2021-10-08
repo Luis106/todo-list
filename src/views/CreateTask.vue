@@ -1,22 +1,14 @@
 <template>
   <div class="row">
     <div class="col-md-4 col-md-offset-4 col-xs-6 col-xs-offset-3">
-      <div class="add-control">
-        <div class="form-group has-feedback">
-          <input
-              v-on:keyup.enter="addTask"
-              type="text"
-              class="form-control"
-              placeholder="✍️ Add item..."
-              v-model="newTask"
-          />
-          <i
-              v-on:click="addTask"
-              class="fa fa-plus form-control-feedback add-btn"
-              title="Add item"
-          ></i>
-        </div>
-      </div>
+     <createTaskInput
+
+      v-on:input_method = "assignTaskValue"
+      v-on:AddTask = "addTask"
+
+     ></createTaskInput>
+
+
       <p class="err text-danger text-center hidden"><i class="fa fa-warning"></i> Oops! Please, enter name item</p>
       <p class="no-items text-muted text-center hidden"><i class="fa fa-ban"></i></p>
       <ul class="todo-list">
@@ -25,24 +17,28 @@
             :key="task.taskId"
             v-bind:class="{ danger: task.status === 'DONE' }"
         >
-          <div class="checkbox">
-            <span class="close">
-              <i class="fa fa-times" v-on:click="deleteTask(index)"></i>
-            </span>
-            <label>
-              <span class="checkbox-mask"></span>
-              <input type="checkbox" v-on:click="changeStatus(index)">
-              {{task.name}}
-            </label>
-          </div>
+          <taskComponent
+          v-bind:name = "task.name"
+          v-bind:index = "index"
+
+          v-on:deleteTask = "deleteTask"
+          v-on:changeStatus = "changeStatus"
+          >
+          </taskComponent>
         </li>
       </ul>
     </div>
   </div>
 </template>
 <script>
+
   import axios from 'axios';
+
+  import createTaskInput from '../components/createTaskInput.vue';
+  import taskComponent from '../components/taskComponent.vue';
+
   export default {
+  components: { createTaskInput, taskComponent },
   name: "CreateTask",
   data() {
     return {
@@ -51,6 +47,11 @@
     }
   },
     methods: {
+      
+      assignTaskValue(value){
+        this.newTask = value;
+      },
+
       async addTask(){
         const newTask = {
           taskId: this.generateID(),
@@ -117,7 +118,10 @@
     },
     created() {
       this.getAllTasks();
-    }
+    },
+    destroyed () {
+      console.log("Createtask ha muerto");
+    },
   }
 </script>
 <style scoped>
