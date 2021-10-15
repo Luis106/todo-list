@@ -111,7 +111,7 @@ export default {
       const date = new Date();
 
       const weekday = [
-        "Sunday 🖖",
+        "Sunday 🖖", 
         "Monday 💪😀",
         "Tuesday 😜",
         "Wednesday 😌☕️",
