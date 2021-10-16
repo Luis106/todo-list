@@ -3,54 +3,5 @@
     "description": "Esta es una descripcion Esta es una descripcion Esta es una descripcion Esta es una descripcion ",
     "image": "http://lavillita.com.mx/wp-content/uploads/2014/08/enchiladas.png"
   },
-  "tasks": [
-    {
-      "taskId": "P1634171582199",
-      "name": "ad",
-      "status": "NEW",
-      "id": "X1634171582199"
-    },
-    {
-      "taskId": "P1634171583701",
-      "name": "asd",
-      "status": "NEW",
-      "id": "W1634171583701"
-    },
-    {
-      "taskId": "B1634175983833",
-      "name": "asd",
-      "status": "DONE",
-      "id": "Y1634175983834"
-    },
-    {
-      "taskId": "B1634175986401",
-      "name": "asdsd",
-      "status": "DONE",
-      "id": "P1634175986401"
-    },
-    {
-      "taskId": "B1634176104181",
-      "name": "sda",
-      "status": "DONE",
-      "id": "W1634176104181"
-    },
-    {
-      "taskId": "P1634176575698",
-      "name": "sdsa",
-      "status": "NEW",
-      "id": "Y1634176575698"
-    },
-    {
-      "taskId": "V1634176677985",
-      "name": "sdsa",
-      "status": "NEW",
-      "id": "O1634176677985"
-    },
-    {
-      "taskId": "P1634259431247",
-      "name": "Tarea 1",
-      "status": "NEW",
-      "id": "J1634259431247"
-    }
-  ]
+  "tasks": []
 }

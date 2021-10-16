@@ -75,8 +75,32 @@
 				console.log(err);
 				}
 			}
-		}
+		},
+		async deleteTask({commit, state}, {taskIndex, taskType}){
+            let currentTask;
+            
+            if(taskType == "NEW"){
+                currentTask = state.createdTaskList[taskIndex].id
+            } else {
+                currentTask = state.doneTaskList[taskIndex].id
+            }
+
+            const response = await axios.delete(
+                `http://localhost:3000/tasks/${currentTask}`
+            )
+    
+            if (response.status != 500) {
+                if (taskType === "NEW") {
+					commit("DELETE_NEW_TASK", taskIndex);
+				} else {
+					commit("DELETE_DONE_TASK", taskIndex);
+				}
+            }
+        }
+		
+	
 	};
+
 	const mutations = {
 		SET_CREATED_TASKS(state, newTaskList) {
 			state.createdTaskList = newTaskList;
@@ -100,8 +124,15 @@
 			}else{
 				state.doneTaskList.push(task);
 			}
-			
-		}
+		},
+		DELETE_NEW_TASK(state, taskIndex){
+            state.createdTaskList.splice(taskIndex, 1);
+        },
+        DELETE_DONE_TASK(state, taskIndex){
+            state.doneTaskList.splice(taskIndex, 1);
+        }
+
+
 	};
 
 	export default {

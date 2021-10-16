@@ -29,12 +29,12 @@
 
 <script>
   // Libraries
-  import axios from 'axios';
+ //import axios from 'axios';
   import {mapGetters} from "vuex";
 
   // Components
   import createTaskInput from '../components/createTaskInput';
-  import taskComponent from '../components/TaskComponent';
+  import taskComponent from '../components/taskComponent';
 
   export default {
   name: "CreateTask",
@@ -76,13 +76,7 @@
         return randLetter + Date.now();
       },
       async deleteTask(taskIndex){
-        const response = await axios.delete(
-            `http://localhost:3000/tasks/${this.taskList[taskIndex].id}`
-        )
-
-        if (response.status != 500) {
-          this.taskList.splice(taskIndex, 1);
-        }
+          await this.$store.dispatch("tasks/deleteTask", {taskIndex: taskIndex, taskType: "NEW"})
       },
       async changeStatus(taskIndex){
           await this.$store.dispatch("tasks/changeStatus", {taskIndex: taskIndex, taskType: "NEW"});
