@@ -130,6 +130,7 @@
         },
         DELETE_DONE_TASK(state, taskIndex){
             state.doneTaskList.splice(taskIndex, 1);
+			///sksdadsadsamdoo
         }
 
 
