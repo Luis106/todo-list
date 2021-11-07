@@ -32,7 +32,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import {mapGetters} from "vuex";
 
 // Components
@@ -61,29 +60,14 @@ name: "DoneTasks",
     async addTask(){
       
       const newTask = {
-        taskId: this.generateID(),
         name: this.newTask,
         status: "DONE",
-        id:this.generateID()
       };
 
       if (this.newTask !== ""){
         // add task to server
-        try {
-          const response = await axios.post(
-              "http://localhost:3000/tasks",
-              newTask
-          );
-
-          if (response.status !== 500) {
-            this.taskList.push(newTask);
-          } else {
-            alert("No se pudo crear la tarea")
-          }
-        } catch (err){
-          console.log(err);
-        }
-        this.newTask = "";
+        await this.$store.dispatch("tasks/addTask", newTask);
+         this.newTask = "";
       }
 
     },
@@ -92,13 +76,7 @@ name: "DoneTasks",
       return randLetter + Date.now();
     },
     async deleteTask(taskIndex){
-      const response = await axios.delete(
-          `http://localhost:3000/tasks/${this.taskList[taskIndex].id}`
-      )
-
-      if (response.status != 500) {
-        this.taskList.splice(taskIndex, 1);
-      }
+        await this.$store.dispatch("tasks/deleteTask", {taskIndex: taskIndex, taskType: "DONE"})
     },
     async changeStatus(taskIndex){
       await this.$store.dispatch("tasks/changeStatus", {taskIndex: taskIndex, taskType: "DONE"});

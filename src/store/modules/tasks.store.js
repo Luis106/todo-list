@@ -1,4 +1,5 @@
 	import axios from "axios";
+	
 
 	const state = {
 		createdTaskList: [],
@@ -11,12 +12,12 @@
 	const actions = {
 		async getAllTasks({commit}, taskType) {
 			try {
+				
 				const response = await axios.get(
-					`http://localhost:3000/tasks?status=${taskType}`
+					`http://localhost:3000/Task/?status=${taskType}`
 				);
 
-				console.log(taskType);
-				console.log(response.data);
+				//console.log(response.data);
 
 				if (response.data){
 					if (taskType === "NEW"){
@@ -31,6 +32,7 @@
 				console.log(err);
 			}
 		},
+
 		async changeStatus({commit, state}, {taskIndex, taskType}) {
 			let currentTask;
 			if (taskType === "NEW") {
@@ -41,10 +43,12 @@
 			const taskCopy = currentTask;
 			taskCopy['status'] = currentTask['status'] === "NEW"? "DONE": "NEW";
 
+			
+			console.log(currentTask._id)
 			const response = await axios.put(
-				`http://localhost:3000/tasks/${currentTask.id}`,
+				`http://localhost:3000/Task/update`,
 				taskCopy
-			)
+			);
 
 			if (response.status !== 500){
 				if (taskType === "NEW") {
@@ -60,11 +64,13 @@
 				// add task to server
 				try {
 				const response = await axios.post(
-					"http://localhost:3000/tasks",
+					"http://localhost:3000/Task/create",
 					task
 				);
-				if (response.status !== 500) {
-					commit("CREATE_TASK", response.data)
+
+				console.log(response.data.savedTask)
+				if (response.status !== 500 && response.data && response.data.savedTask) {
+					commit("CREATE_TASK", response.data.savedTask)
 				
 				} else {
 					//alert("No se pudo crear la tarea")
@@ -78,15 +84,17 @@
 		},
 		async deleteTask({commit, state}, {taskIndex, taskType}){
             let currentTask;
-            
+           
             if(taskType == "NEW"){
-                currentTask = state.createdTaskList[taskIndex].id
+                currentTask = state.createdTaskList[taskIndex]._id
             } else {
-                currentTask = state.doneTaskList[taskIndex].id
+                currentTask = state.doneTaskList[taskIndex]._id
             }
+			console.log(currentTask)
 
             const response = await axios.delete(
-                `http://localhost:3000/tasks/${currentTask}`
+                `http://localhost:3000/Task/delete`, {data:{ _id:currentTask}}
+				
             )
     
             if (response.status != 500) {
@@ -104,6 +112,8 @@
 	const mutations = {
 		SET_CREATED_TASKS(state, newTaskList) {
 			state.createdTaskList = newTaskList;
+			console.log(state.createdTaskList)
+			
 		},
 		SET_DONE_TASKS(state, newTaskList) {
 			state.doneTaskList = newTaskList;
@@ -120,6 +130,7 @@
 		},
 		CREATE_TASK(state, task){
 			if(task.status === "NEW"){
+				console.log(task)
 				state.createdTaskList.push(task);
 			}else{
 				state.doneTaskList.push(task);
@@ -130,7 +141,7 @@
         },
         DELETE_DONE_TASK(state, taskIndex){
             state.doneTaskList.splice(taskIndex, 1);
-			///sksdadsadsamdoo
+			
         }
 
 

@@ -21,6 +21,7 @@ export default {
     index: {
       type: Number
     }
+
   },
   methods: {
     emitDelete(index){

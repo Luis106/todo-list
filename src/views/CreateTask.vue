@@ -18,7 +18,7 @@
           <taskComponent
             :name="task.name"
             :index="index"
-            @Delete="deleteTask"
+            v-on:Delete="deleteTask"
             @Change="changeStatus"
           ></taskComponent>
         </li>
@@ -60,10 +60,8 @@
       async addTask(){
 
         const newTask = {
-          taskId: this.generateID(),
           name: this.newTask,
           status: "NEW",
-          id:this.generateID()
         };
 
          await this.$store.dispatch("tasks/addTask", newTask);
@@ -76,6 +74,7 @@
         return randLetter + Date.now();
       },
       async deleteTask(taskIndex){
+          console.log(taskIndex)
           await this.$store.dispatch("tasks/deleteTask", {taskIndex: taskIndex, taskType: "NEW"})
       },
       async changeStatus(taskIndex){

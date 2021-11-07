@@ -130,12 +130,16 @@ export default {
         this.currentView = "TODO";
         this.$router.push({path: "/"})
       }
+    },
+    getAuthToken(){
+     // await this.$store.dispatch("auth/getTokenFromServer")
     }
 
   },
   created() {
     this.assignInitialGretting();
     this.getCurrentDay();
+    this.getAuthToken();
   }
 }
 
