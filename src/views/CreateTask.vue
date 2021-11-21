@@ -12,7 +12,7 @@
       <ul class="todo-list">
         <li
             v-for="(task, index) in getCreatedTasks"
-            :key="task.taskId"
+            :key="task._id"
             v-bind:class="{ danger: task.status === 'DONE' }"
         >
           <taskComponent
@@ -90,7 +90,12 @@
       }
     },
     created() {
-      this.getAllTasks();
+      const vueInstance = this;
+
+      setTimeout(function(){
+        vueInstance.getAllTasks();
+      },5000);
+      
     }
   }
 </script>

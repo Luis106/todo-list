@@ -131,8 +131,10 @@ export default {
         this.$router.push({path: "/"})
       }
     },
-    getAuthToken(){
-     // await this.$store.dispatch("auth/getTokenFromServer")
+    async getAuthToken(){
+
+     await this.$store.dispatch("tasks/getToken")
+
     }
 
   },
@@ -140,6 +142,7 @@ export default {
     this.assignInitialGretting();
     this.getCurrentDay();
     this.getAuthToken();
+
   }
 }
 

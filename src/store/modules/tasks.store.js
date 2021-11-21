@@ -3,21 +3,29 @@
 
 	const state = {
 		createdTaskList: [],
-		doneTaskList: []
+		doneTaskList: [],
+		token : String
 	};
+
 	const getters = {
 		getCreatedTasks: (state) => state.createdTaskList,
 		getDoneTasks: (state) => state.doneTaskList,
+		getToken(state) { return state.token}
+
 	};
 	const actions = {
-		async getAllTasks({commit}, taskType) {
+		async getAllTasks({commit,getters}, taskType) {
+			const token = getters.getToken
+			console.log("Valor Token "+ token)
+			
 			try {
 				
 				const response = await axios.get(
-					`http://localhost:3000/Task/?status=${taskType}`
+					`http://localhost:3000/Task/?status=${taskType}`,
+					{headers: { Authorization: `Bearer ${token}` }}
 				);
 
-				//console.log(response.data);
+				console.log(response.data);
 
 				if (response.data){
 					if (taskType === "NEW"){
@@ -104,7 +112,27 @@
 					commit("DELETE_DONE_TASK", taskIndex);
 				}
             }
-        }
+        },
+		async getToken({commit}) {
+			
+			try {
+				
+				const response = await axios.get(
+					`http://localhost:3000/auth/sing`,
+				
+				);
+                console.log("Token")
+				console.log(response.data);
+
+				if (response.data){
+				
+					commit('SET_TOKEN', response.data);
+				}
+
+			}catch (err) {
+				console.log(err);
+			}
+		}
 		
 	
 	};
@@ -142,7 +170,13 @@
         DELETE_DONE_TASK(state, taskIndex){
             state.doneTaskList.splice(taskIndex, 1);
 			
-        }
+        },
+		SET_TOKEN(state, token) {
+			state.token = token.jwt;
+			console.log("state.token")
+			console.log(state.token)
+			
+		},
 
 
 	};
